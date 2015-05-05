@@ -1,0 +1,76 @@
+"use strict";
+
+function processData(input) {
+  //Enter your code here
+
+  var inputs = input.split("\n");
+  var _NM    = inputs[0].split(" ");
+  var N      = parseInt(_NM[0]);
+  var M      = parseInt(_NM[1]);
+
+  var num_connect_nodes = new Array(N);
+  var connect_table     = new Array(N);
+  for(var i = 0; i < N; i++) {
+    num_connect_nodes[i] = 1;
+    connect_table[i] = new Array(N);
+    for(var j = 0; j < N; j++) {
+      connect_table[i][j] = 0;
+    }
+  }
+
+  // edge init
+  for(var i = 0; i < M; i++) {
+    var edge = inputs[i + 1].split(" ");
+    var ui   = parseInt(edge[0]) - 1;
+    var vi   = parseInt(edge[1]) - 1;
+    connect_table[ui][vi] = 1;
+    connect_table[vi][ui] = 1;
+  }
+
+  // process
+  for(var count = 0;; count++) {
+    var flag = true;
+
+    for(var i = 0; i < N; i++) {
+      var now = num_connect_nodes[i];
+      var target = 0;
+      var num_prob = 0;
+      for(var j = 0; j < N; j++) {
+        if(connect_table[i][j] == 1) {
+          target = j;
+          num_prob++;
+        }
+      }
+      if((now % 2 != 0) && (num_prob == 1)) {
+        num_connect_nodes[target] += num_connect_nodes[i];
+        connect_table[i][target] = 0;
+        connect_table[target][i] = 0;
+        flag = false;
+      }
+    }
+
+    if(flag) break;
+  }
+
+//  console.log(num_connect_nodes);
+//  console.log(connect_table);
+
+  var sum = 0;
+  for(var i = 0; i < N; i++) {
+    for(var j = 0; j < N; j++) {
+      if(connect_table[i][j] == 1) sum++;
+    }
+  }
+  console.log(sum / 2);
+}
+
+process.stdin.resume();
+process.stdin.setEncoding("ascii");
+var _input = "";
+process.stdin.on("data", function (input) {
+  _input += input;
+});
+process.stdin.on("end", function () {
+  processData(_input);
+});
+
