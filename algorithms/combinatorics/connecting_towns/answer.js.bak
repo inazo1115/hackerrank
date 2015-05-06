@@ -1,0 +1,27 @@
+"use strict";
+
+function processData(input) {
+  //Enter your code here
+
+  var inputs = input.split("\n");
+  var T      = parseInt(inputs[0]);
+
+  for(var test_case = 0; test_case < T; test_case++) {
+    var routes = inputs[2 + test_case * 2].split(" ");
+    var answer = routes
+                 .map(function(e) { return parseInt(e); })
+                 .reduce(function(a, b) { return a * b; });
+    console.log(answer % 1234567);
+  }
+}
+
+process.stdin.resume();
+process.stdin.setEncoding("ascii");
+var _input = "";
+process.stdin.on("data", function (input) {
+  _input += input;
+});
+process.stdin.on("end", function () {
+  processData(_input);
+});
+
