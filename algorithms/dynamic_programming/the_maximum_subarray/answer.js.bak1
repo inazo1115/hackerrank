@@ -1,0 +1,44 @@
+"use strict";
+
+function processData(input) {
+  //Enter your code here
+
+  var inputs = input.split("\n");
+  var T      = parseInt(inputs[0]);
+  
+  for(var test_case = 0; test_case < T; test_case++) {
+    
+    var N = parseInt(inputs[1 + test_case * 2]);
+    var A = inputs[2 + test_case * 2].split(" ").map(function(e) { return parseInt(e); });
+
+    var xs   = [];
+    var max  = 0;
+    var ans1 = 0;
+    
+    for(var i = 0; i < N; i++) {
+      var n = A[i];
+
+      if(n > 0) ans1 += n;
+      
+      var xs_len = xs.length;
+      for(var j = 0; j < xs_len; j++) {
+        xs[j] += n;
+        if(xs[j] > max) max = xs[j];
+      }
+      xs.push(n);
+      if(n > max) max = n;
+    }
+    console.log(max + " " + ans1);
+  }
+}
+
+process.stdin.resume();
+process.stdin.setEncoding("ascii");
+var _input = "";
+process.stdin.on("data", function (input) {
+  _input += input;
+});
+process.stdin.on("end", function () {
+  processData(_input);
+});
+
