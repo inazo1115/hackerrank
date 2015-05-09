@@ -1,0 +1,69 @@
+"use strict";
+
+function processData(input) {
+  //Enter your code here
+
+  var inputs = input.split("\n");
+  var n      = parseInt(inputs[0]);
+
+  if(n < 3) {
+    for(var i = 0; i < n; i++) console.log(inputs[1 + i]);
+    return;
+  }
+
+  // make field
+  var field = [];
+  for(var i = 0; i < n; i++) {
+    var line = inputs[1 + i];
+    field.push([]);
+    for(var j = 0; j < n; j++) {
+      field[i].push(line[j]); // type of field is "Array<String>"
+    }
+  }
+  
+  // exec
+  for(var i = 1; i < n - 1; i++) {
+    for(var j = 1; j < n - 1; j++) {
+      if(field[i][j] == "X") continue;
+      depth_first_search(i, j, field[i][j], false);
+    }
+  }
+
+  // output
+  for(var i = 0; i < n; i++) {
+    console.log(field[i].join(""));
+  }
+
+  function depth_first_search(i, j, v, is_chain) {
+    var is_hole = false;
+
+    // right
+    if(i + 1 < n - 1 && field[i + 1][j] == v) {
+      is_hole = true;
+      depth_first_search(i + 1, j, v, true);
+    }
+    // lower
+    if(j + 1 < n - 1 && field[i][j + 1] == v) {
+      is_hole = true;
+      depth_first_search(i, j + 1, v, true);
+    }
+    // lower right
+    if(i + 1 < n - 1 && j + 1 < n - 1 && field[i + 1][j + 1] == v) {
+      is_hole = true;
+      depth_first_search(i + 1, j + 1, v, true);
+    }
+    
+    if(is_chain || is_hole) field[i][j] = "X";
+  }
+}
+
+process.stdin.resume();
+process.stdin.setEncoding("ascii");
+var _input = "";
+process.stdin.on("data", function (input) {
+  _input += input;
+});
+process.stdin.on("end", function () {
+  processData(_input);
+});
+
