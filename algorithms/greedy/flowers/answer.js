@@ -7,16 +7,18 @@ function processData(input) {
   var _NK     = inputs[0].split(" ");
   var N       = parseInt(_NK[0]);
   var K       = parseInt(_NK[1]);
-  var flowers = inputs[1].split(" ").map(function(e) { return parseInt(e); }).sort().reverse();
+  var flowers = inputs[1].split(" ")
+                .map(function(e) { return parseInt(e); })
+                .sort(function(a, b) { return b - a; });
 
-  var ans = 0;
-  var x   = 0;
+  var answer = 0;
+  var x      = 0;
   for(var i = 0; i < N; i++) {
     if(i % K == 0) x++;
-    ans += x * flowers[i];
+    answer += x * flowers[i];
   }
 
-  console.log(ans);
+  console.log(answer);
 }
 
 process.stdin.resume();
