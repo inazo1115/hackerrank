@@ -1,0 +1,42 @@
+"use strict";
+
+function processData(input) {
+  //Enter your code here
+
+  var inputs = input.split("\n");
+  var T      = parseInt(inputs[0]);
+
+  for(var test_case = 0; test_case < T; test_case++) {
+    var n = parseInt(inputs[1 + test_case * 3]);
+    var a = parseInt(inputs[2 + test_case * 3]);
+    var b = parseInt(inputs[3 + test_case * 3]);
+
+    var answers = [];
+    for(var i = 0; i < n; i++) {
+      answers.push(a * (n - 1 - i) + b * i);
+    }
+    console.log(sort_uniq(answers).join(" "));
+  }
+}
+
+function sort_uniq(array) {
+  var sorted = array.sort(function(a, b) { return a - b; });
+  var uniqed = [sorted[0]];
+  var len    = sorted.length;
+  for(var i = 1; i < len; i++) {
+    var x = sorted[i];
+    if(x != uniqed[uniqed.length - 1]) uniqed.push(x);
+  }
+  return uniqed;
+}
+
+process.stdin.resume();
+process.stdin.setEncoding("ascii");
+var _input = "";
+process.stdin.on("data", function (input) {
+  _input += input;
+});
+process.stdin.on("end", function () {
+  processData(_input);
+});
+
