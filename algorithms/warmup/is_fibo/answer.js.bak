@@ -1,0 +1,50 @@
+"use strict";
+
+function processData(input) {
+  //Enter your code here
+
+  var inputs  = input.split("\n");
+  var N       = parseInt(inputs[0]);
+  var inputs_ = inputs.slice(1)
+                .map(function(e) { return parseInt(e); })
+                .filter(function(e) { return !isNaN(e); });
+
+  var max = 0;
+  inputs_.forEach(function(e) { if(e > max) max = e; });
+
+  var fib = get_fibo(max);
+  for(var i = 0; i < N; i++) {
+    if(fib[inputs_[i]]) console.log("IsFibo");
+    else                console.log("IsNotFibo");
+  }
+}
+
+function get_fibo(max) {
+  var fib = new Array(max + 1);
+  var x0 = 0;
+  var x1 = 1;
+  fib[0] = true;
+  fib[1] = true;
+  
+  if(max <= 1) return fib;
+  
+  while(true) {
+    var y = x0 + x1;
+    if(y > max) break;
+    fib[y] = true;
+    x0 = x1;
+    x1 = y;
+  }
+  return fib;
+}
+
+process.stdin.resume();
+process.stdin.setEncoding("ascii");
+var _input = "";
+process.stdin.on("data", function (input) {
+  _input += input;
+});
+process.stdin.on("end", function () {
+  processData(_input);
+});
+
