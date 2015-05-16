@@ -26,8 +26,6 @@ var subdomains = [
 /**
  * chice subdomain from algorithms.
  */
-(function() {
-  var n = Math.floor(subdomains.length * Math.random());
-  console.log(subdomains[n]);
-})();
+var n = Math.floor(subdomains.length * Math.random());
+console.log(subdomains[n]);
 
