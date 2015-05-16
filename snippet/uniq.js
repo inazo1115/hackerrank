@@ -1,19 +1,14 @@
 "use strict";
 
 /**
- * @param sorted 'sorted' is sorted array. elements of 'sorted' are positive number.
+ * @param sorted 'sorted' is sorted array.
  */
 function uniq(sorted) {
-  var tmp    = -1;
-  var uniqed = [];
-  sorted.forEach(
-    function(e) {
-      if(tmp != e) {
-        uniqed.push(e);
-        tmp = e;
-      }
-    }
-  )
+  var uniqed = [sorted[0]];
+  for(var i = 1; i < sorted.length; i++) {
+    var x = sorted[i];
+    if(x != uniqed[uniqed.length - 1]) uniqed.push(x);
+  }
   return uniqed;
 }
 
