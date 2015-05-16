@@ -14,70 +14,39 @@ function processData(input) {
 
 function solve(num) {
   var n = num;
-  var fifteen = Math.floor(n / 15);
-  n = n % 15;
-
-  console.log(num, fifteen, n);
-
-  function f() {
-    for(var i = 0; i < fifteen; i++) {
-      process.stdout.write("555555555555555");
+  var three = Math.floor(n / 3);
+  n = n % 3;
+  
+  if(n == 0) {
+    for(var i = 0; i < three; i++) {
+      process.stdout.write("555");
     }
-  }
-
-  switch(n) {
-    case 13:
-    f();
-    console.log("5553333333333");
-    break;
-
-    case 12:
-    f();
-    console.log("555555555555");
-    break;
-
-    case 11:
-    f();
-    console.log("55555533333");
-    break;
-
-    case 10:
-    f();
-    console.log("3333333333");
-    break;
-
-    case 9:
-    f();
-    console.log("555555555");
-    break;
-
-    case 8:
-    f();
-    console.log("55533333");
-    break;
-
-    case 6:
-    f();
-    console.log("555555");
-    break;
-
-    case 5:
-    f();
-    console.log("33333");
-    break;
-
-    case 3:
-    f();
-    console.log("555");
-    break;
-
-    case 0:
-    f();
     console.log("");
-    break;
-
-    default:
-    console.log(-1);    
+    return;
+  }
+  
+  if(n == 1) {
+    if(three < 3) {
+      console.log("-1");
+    } else {
+      for(var i = 0; i < three - 3; i++) {
+        process.stdout.write("555");
+      }
+      console.log("3333333333");
+    }
+    return;
+  }
+  
+  if(n == 2) {
+    if(three < 1) {
+      console.log("-1");
+    } else {
+      for(var i = 0; i < three - 1; i++) {
+        process.stdout.write("555");
+      }
+      console.log("33333");
+    }
+    return;
   }
 }
 
