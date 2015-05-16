@@ -13,11 +13,10 @@ function prime_factor(x) {
   return answer;
 }
 
-// test0
-console.log("expected: 100 -> [2, 2, 5, 5]");
-console.log("prime_factor(100) is", prime_factor(100));
+// test
+console.log("prime_factor(100)");
+console.log(prime_factor(100));
 
-// test1
-console.log("expected: 101 -> [101]");
-console.log("prime_factor(101) is", prime_factor(101));
+console.log("prime_factor(101)");
+console.log(prime_factor(101));
 
