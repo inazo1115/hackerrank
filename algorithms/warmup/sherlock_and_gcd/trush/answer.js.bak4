@@ -1,0 +1,80 @@
+"use strict";
+
+function processData(input) {
+  //Enter your code here
+
+  var inputs = input.split("\n");
+  var T      = parseInt(inputs[0]);
+
+  for(var test_case = 0; test_case < T; test_case++) {
+
+    // prepare subsets
+    var N  = parseInt(inputs[1 + test_case * 2]);
+    var xs = inputs[2 + test_case * 2].split(" ").slice(0, N)
+             .map(function(e) { return parseInt(e); })
+             .sort(function(l, r) { return l - r; });
+    var uniqed = uniq(xs);
+    var sub = subsets(uniqed).filter(function(e) { return e.length != 0; });
+    
+    // exec
+    var is_yes = true;
+    for(var i = 0; i < sub.length; i++) {
+      console.log(sub[i]);
+      is_yes = check(sub[i]);
+//      if(is_yes) break;
+    }
+    var msg = is_yes ? "YES" : "NO";
+    console.log(msg);
+  }
+}
+
+function check(arr) {
+  if(arr[0] == 1) return true;
+  for(var i = 0; i < arr.length; i++) {
+    var f = true;
+    for(var j = 0; j < arr.length; j++) {
+      if(arr[j] % arr[i] == 0) f = false;
+    }
+  }
+  return f;
+}
+
+function uniq(sorted) {
+  var tmp    = -1;
+  var uniqed = [];
+  sorted.forEach(
+    function(e) {
+      if(tmp != e) {
+        uniqed.push(e);
+        tmp = e;
+      }
+    }
+  )
+  return uniqed;
+}
+
+function subsets(arr) {
+  var ret = [[]];
+  for(var i = 0; i < arr.length; i++) {
+    var ret_ = [];
+    for(var j = 0; j < ret.length; j++) {
+      var a = ret[j].slice();
+      var b = ret[j].slice().concat(arr[i]);
+      ret_.push(a);
+      ret_.push(b);
+    }
+    ret = ret_;
+  }
+  return ret;
+}
+
+process.stdin.resume();
+process.stdin.setEncoding("ascii");
+var _input = "";
+process.stdin.on("data", function (input) {
+  _input += input;
+});
+process.stdin.on("end", function () {
+  processData(_input);
+});
+

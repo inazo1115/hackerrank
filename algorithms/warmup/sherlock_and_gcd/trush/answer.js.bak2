@@ -1,0 +1,45 @@
+"use strict";
+
+function processData(input) {
+  //Enter your code here
+
+  var inputs = input.split("\n");
+  var T      = parseInt(inputs[0]);
+
+  for(var test_case = 0; test_case < T; test_case++) {
+    var N  = parseInt(inputs[1 + test_case * 2]);
+    var xs = inputs[2 + test_case * 2].split(" ").slice(0, N)
+             .map(function(e) { return parseInt(e); })
+             .sort(function(l, r) { return l - r; });
+    var s = subsets(xs);
+    console.log(s);
+
+  }
+}
+
+function subsets(arr) {
+  var ret = [[]];
+  for(var i = 0; i < arr.length; i++) {
+    var n = [[], [arr[i]]];
+    var ret_ = [];
+    for(var j = 0; j < ret.length; j++) {
+      var a = ret[j].slice().concat([n[0]]);
+      var b = ret[j].slice().concat([n[1]]);
+      ret_.push(a);
+      ret_.push(b);
+    }
+    ret = ret_;
+  }
+  return ret;
+}
+
+process.stdin.resume();
+process.stdin.setEncoding("ascii");
+var _input = "";
+process.stdin.on("data", function (input) {
+  _input += input;
+});
+process.stdin.on("end", function () {
+  processData(_input);
+});
+

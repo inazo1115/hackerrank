@@ -1,0 +1,68 @@
+"use strict";
+
+function processData(input) {
+  //Enter your code here
+
+  var inputs = input.split("\n");
+  var T      = parseInt(inputs[0]);
+
+  for(var test_case = 0; test_case < T; test_case++) {
+    var N  = parseInt(inputs[1 + test_case * 2]);
+    var xs = inputs[2 + test_case * 2].split(" ")
+             .map(function(e) { return parseInt(e); })
+             .filter(function(e) { return !isNaN(e); })
+             .sort(function(l, r) { return l - r; });
+    solve(N, xs);
+  }
+}
+
+function solve(n, arr) {
+  if(arr[0] == 1) {
+    console.log("YES");
+    return;
+  }
+
+//  var primes = sieve(arr[n - 1]);
+
+  for(var i = 0; i < arr.length; i++) {
+    if(arr[i] == 1) continue;
+    var is_yes = false;
+    for(var j = 0; j < arr.length; j++) {
+      if(arr[i] == arr[j]) continue;
+      if(arr[j] % arr[i] == 0) {
+        console.log("YES");
+        return;
+      }
+    }
+  }
+  console.log("NO");
+}
+
+function sieve(n) {
+  var primes = [];
+  var arr = new Array(n + 1);
+  for(var i = 0; i <= n; i++) arr[i] = true;
+  arr[0] = false;
+  arr[1] = false;
+  for(var i = 2; i <= n; i++) {
+    if(arr[i]) {
+      primes.push(i);
+      for(var j = i * 2; j <= n; j += i) {
+        arr[j] = false;
+      }
+    }
+  }
+  return primes;
+}
+
+
+process.stdin.resume();
+process.stdin.setEncoding("ascii");
+var _input = "";
+process.stdin.on("data", function (input) {
+  _input += input;
+});
+process.stdin.on("end", function () {
+  processData(_input);
+});
+
