@@ -1,0 +1,61 @@
+"use strict";
+
+function processData(input) {
+  var inputs = input.split("\n");
+  var N      = parseInt(inputs[0]);
+  var strs   = inputs.slice(1);
+  solve(N, strs);
+}
+
+function solve(N, strs) {
+  for(var i = 0; i < N; i++) {
+    var x = solve_(strs[i]);
+    if(x[0]) {
+      console.log(x[1]);
+    } else {
+      console.log("no answer");
+    }
+  }
+}
+
+function solve_(str) {
+  var is_changed = false;
+  var ans        = [];
+  for(var i = str.length - 1; i >= 1; i--) {
+    for(var j = i - 1; j >= 0; j--) {
+      var a = str.charCodeAt(i);
+      var b = str.charCodeAt(j);
+      if(a > b) {
+        is_changed = true;
+        ans = change(str, i, j);
+        return [is_changed, ans];
+      }
+    }
+  }
+  return [is_changed, []];
+}
+
+function change(str, i, j) {
+  var a  = swap(str.split(""), i, j);
+  var x0 = a.slice(0, j + 1);
+  var x1 = a.slice(j + 1).sort(function(l, r) { return l.charCodeAt(0) - r.charCodeAt(0); });
+  return x0.concat(x1).join("");
+}
+
+function swap(arr, i, j) {
+  var tmp = arr[i];
+  arr[i] = arr[j];
+  arr[j] = tmp;
+  return arr;
+}
+
+process.stdin.resume();
+process.stdin.setEncoding("ascii");
+var _input = "";
+process.stdin.on("data", function (input) {
+  _input += input;
+});
+process.stdin.on("end", function () {
+  processData(_input);
+});
+
