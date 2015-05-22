@@ -1,0 +1,51 @@
+"use strict";
+
+function processData(input) {
+  var inputs = input.split("\n");
+  var N      = parseInt(inputs[0]);
+  var rocks  = inputs.slice(1);
+  console.log(solve(N, rocks));
+}
+
+function solve(N, rocks) {
+  var a         = "a".charCodeAt(0);
+  var alphabets = new Array(26);
+  for(var i = 0; i < alphabets.length; i++) { alphabets[i] = 0; }
+  
+  for(var i = 0; i < N; i++) {
+    for(var j = 0; j < rocks[i].length; j++) {
+      var c = rocks[i].charCodeAt(j) - a;
+      if(alphabets[c] != -1) {
+        alphabets[c]++;
+      }
+    }
+    filter_x(1, alphabets);
+  }
+  return count_x(0, alphabets);
+}
+
+function count_x(x, arr) {
+  var ret = 0;
+  for(var i = 0; i < arr.length; i++) {
+    if(arr[i] == x) ret++;
+  }
+  return ret;
+}
+
+function filter_x(x, arr) {
+  for(var i = 0; i < arr.length; i++) {
+    if(arr[i] != x) arr[i] = -1;
+    else            arr[i] = 0;
+  }
+}
+
+process.stdin.resume();
+process.stdin.setEncoding("ascii");
+var _input = "";
+process.stdin.on("data", function (input) {
+  _input += input;
+});
+process.stdin.on("end", function () {
+  processData(_input);
+});
+
