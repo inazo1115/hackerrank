@@ -19,7 +19,7 @@ function solve(N, strs) {
 }
 
 function solve_(_str) {
-  var str        = _str.split("");
+  var str = _str.split("");
   var is_changed = false;
   var ans        = [];
   for(var i = str.length - 1; i >= 0; i--) {
@@ -34,6 +34,14 @@ function solve_(_str) {
     }
   }
   return [is_changed, []];
+}
+
+function change(str, i, j) {
+  var a  = swap(str, i, j);
+  var x0 = a.slice(0, i);
+  var x1 = a.slice(i).sort(function(l, r) { return l.charCodeAt(0) - r.charCodeAt(0); });
+  console.log(a, x0, x1);
+  return x0.concat(x1).join("");
 }
 
 function swap(arr, i, j) {
