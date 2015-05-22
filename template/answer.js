@@ -1,8 +1,6 @@
 "use strict";
 
 function processData(input) {
-  //Enter your code here
-
   var inputs = input.split("\n");
   console.log(inputs);
 }
