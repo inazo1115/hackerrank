@@ -2,7 +2,10 @@
 
 function processData(input) {
   var inputs = input.split("\n");
-  console.log(inputs);
+}
+
+function solve() {
+  console.log("...");
 }
 
 process.stdin.resume();
