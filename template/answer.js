@@ -1,7 +1,7 @@
 "use strict";
 
 function processData(input) {
-  var inputs = input.split("\n");
+  var ss = input.split("\n");
 }
 
 function solve() {
