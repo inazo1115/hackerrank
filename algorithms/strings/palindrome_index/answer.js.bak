@@ -1,0 +1,36 @@
+"use strict";
+
+function processData(input) {
+  var ss = input.split("\n");
+  var T = parseInt(ss[0]);
+  for(var i = 0; i < T; i++) {
+    console.log(solve(ss[1 + i]));
+  }
+}
+
+function solve(str) {
+  for(var i = 0; i < str.length; i++) {
+    var s = str.slice(0, i).concat(str.slice(i + 1));
+    if(isPalindrome(s)) return i;
+  }
+  return -1;
+}
+
+function isPalindrome(str) {
+  var len = str.length;
+  for(var i = 0; i < len / 2; i++) {
+    if(str[i] != str[len - i - 1]) return false;
+  }
+  return true;
+}
+
+process.stdin.resume();
+process.stdin.setEncoding("ascii");
+var _input = "";
+process.stdin.on("data", function (input) {
+  _input += input;
+});
+process.stdin.on("end", function () {
+  processData(_input);
+});
+
