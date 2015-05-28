@@ -1,0 +1,40 @@
+"use strict";
+
+function processData(input) {
+  var ss = input.split("\n");
+  var N = parseInt(ss[0].split(" ")[0]);
+  var K = parseInt(ss[0].split(" ")[1]);
+  var S = ss[1].split("").map(function(e) {
+    return parseInt(e);
+  });
+  console.log(solve(N, K, S).join(""));
+}
+
+function solve(N, K, S) {
+  var ret = [S[0]];
+  for(var i = 1; i < N; i++) {
+    var now = S[i];
+    var acc = 0;
+    for(var j = i - K + 1; j < i; j++) {
+      if(j < 0) continue;
+      acc = xor(acc, ret[j]);
+    }
+    ret.push(xor(acc, now));
+  }
+  return ret;
+}
+
+function xor(x, y) {
+  return Math.abs(x - y);
+}
+
+process.stdin.resume();
+process.stdin.setEncoding("ascii");
+var _input = "";
+process.stdin.on("data", function (input) {
+  _input += input;
+});
+process.stdin.on("end", function () {
+  processData(_input);
+});
+
