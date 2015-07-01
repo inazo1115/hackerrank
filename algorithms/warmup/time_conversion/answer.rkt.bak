@@ -1,0 +1,34 @@
+#lang racket
+
+; solve
+(define (solve time-str)
+  (if (eqv? (string-length time-str) 8)
+      time-str
+      (solve* time-str)))
+
+(define (solve* time-str)
+  (let ([hh (substring time-str 0 2)]
+        [mm (substring time-str 3 5)]
+        [ss (substring time-str 6 8)]
+        [xx (substring time-str 8 10)])
+    (string-append 
+     (get-24-hour-format-time hh xx) ":" mm ":" ss)))
+
+(define (get-24-hour-format-time h x)
+  (define h* (if (< (string->number h) 12)
+                  h
+                  (number->string (- (string->number h) 12))
+                  ))
+  (define h** (if (string=? x "AM")
+                 (number->string (remainder 12 (string->number h*)))
+                 (number->string (+ 12 (string->number h*)))))
+  (format-24-h h**)
+  )
+
+(define (format-24-h h)
+  (~r (remainder (string->number h) 24)
+      #:min-width 2 #:pad-string "0"))
+
+; main
+(displayln (solve (read-line)))
+
