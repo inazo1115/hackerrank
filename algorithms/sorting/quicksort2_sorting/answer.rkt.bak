@@ -1,0 +1,18 @@
+#lang racket
+
+; [integer] -> [integer]
+(define (quick ar)
+  (if (null? ar)
+      ar
+      (append (quick (filter (lambda (x) (< x (car ar))) ar))
+              (list (car ar))
+              (quick (filter (lambda (x) (> x (car ar))) ar))
+              )))
+
+(define n (string->number (read-line)))
+(define ar (map (lambda (x) (string->number x))
+                (string-split (read-line) " ")))
+
+(displayln (string-join (map (lambda (x) (number->string x))
+                             (quick ar))))
+
