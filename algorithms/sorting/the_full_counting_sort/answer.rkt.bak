@@ -1,0 +1,21 @@
+#lang racket
+
+(define size (string->number (read-line)))
+(define vec (make-vector 100))
+(vector-fill! vec "")
+
+(define (make-foo! i)
+  (let* ([line (string-split (read-line) " ")]
+         [num (string->number (car line))]
+         [wor (car (cdr line))])
+    (set! wor (if (< i (/ size 2))
+                  "-"
+                  wor))
+    (vector-set! vec
+                 num
+                 (string-append (vector-ref vec num) " " wor))))
+
+(for-each (lambda (i) (make-foo! i))
+          (range size))
+
+(displayln (string-join (vector->list vec) ""))
