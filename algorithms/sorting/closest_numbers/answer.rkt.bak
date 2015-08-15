@@ -1,0 +1,22 @@
+#lang racket
+
+(define (solve sorted-vec)
+  (define ans '())
+  (define minv +inf.0)
+  (for-each (lambda (i) (let* ([e0 (vector-ref sorted-vec i)]
+                               [e1 (vector-ref sorted-vec (add1 i))]
+                               [v (- e1 e0)]
+                              )
+                          (cond
+                            [(< v min)
+                             (set! ans (list v))
+                             (set! minv ans)]
+                            []
+                            [])
+                          ))
+            (range (sub1 (vector-length sorted-vec))))
+  )
+
+(void (read-line))
+(define lis (map string->number (string-split (read-line) " ")))
+(solve (list->vector (sort lis <)))
