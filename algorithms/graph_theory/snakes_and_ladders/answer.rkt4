@@ -1,0 +1,61 @@
+#lang racket
+
+(define p displayln)
+
+(define (play move-lst)
+  (define f (make-vector 130))
+  (vector-fill! f 100)
+  (vector-set! f 1 0)
+  (for-each (lambda (now-pos) (step f now-pos move-lst))
+            (range 1 101))
+  (p move-lst)
+  (p (take (vector->list f) 101))
+  (if (eqv? (vector-ref f 100) 1000)
+      -1
+      (vector-ref f 101)))
+
+(define (step f now-pos move-lst)
+  (for-each (lambda (dice) (let ([next-pos-lst (get-next-pos-lst (list now-pos) dice move-lst)]
+                                 [next-val (add1 (vector-ref f now-pos))])
+                             (for-each (lambda (next-pos)
+                                         (when (< next-val (vector-ref f next-pos))
+                                           (vector-set! f next-pos next-val)))
+                                       next-pos-lst)))
+            (range 1 7)))
+
+(define (get-next-pos-lst now-pos-lst rst-move move-lst)
+  (define (next-pos-lst)
+    (flatten (map (lambda (now-pos) (list (add1 now-pos)
+                                          (free-move (add1 now-pos) move-lst)))
+                  now-pos-lst)))
+  (if (eqv? rst-move 0)
+      now-pos-lst
+      (get-next-pos-lst (next-pos-lst) (sub1 rst-move) move-lst)))
+
+(define (free-move pos move-lst)
+  (let ([move-lst (filter (lambda (m) (eqv? (car m) pos))
+                          move-lst)])
+    (if (null? move-lst)
+        '()
+        (cadr (car move-lst)))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(define (read-n n)
+  (if (eqv? n 0)
+      '()
+      (cons (map string->number
+                 (string-split (read-line) " "))
+            (read-n (sub1 n)))))
+
+;; main
+(define T (string->number (read-line)))
+(define (process)
+  (let* ([N (string->number (read-line))]
+         [ladders (read-n N)]
+         [M (string->number (read-line))]
+         [snakes (read-n M)])
+    (play (append ladders snakes))))
+(for-each (lambda (_)
+            (p (process)))
+          (range T))

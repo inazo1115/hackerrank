@@ -1,0 +1,42 @@
+#lang racket
+
+(define p displayln)
+
+(define (play move-lst)
+  (define f (make-vector 200))
+  (vector-fill! f 1111)
+  (vector-set! f 1 0)
+  (for-each (lambda (now-pos) (step f now-pos move-lst))
+            (range 1 100))
+  (if (eqv? (vector-ref f 100) 1000)
+      -1
+      (vector-ref f 100)))
+
+(define (step f now-pos move-lst)
+  (for-each (lambda (dice) (let ([next-pos (+ now-pos dice)]
+                                 [next-val (add1 (vector-ref f now-pos))])
+                             (when (< next-val (vector-ref f next-pos))
+                               (vector-set! f next-pos next-val))))
+            (range 1 7)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(define (read-n n)
+  (if (eqv? n 0)
+      '()
+      (cons (map string->number
+                 (string-split (read-line) " "))
+            (read-n (sub1 n)))))
+
+;; main
+(define T (string->number (read-line)))
+(define (process)
+  (let* ([N (string->number (read-line))]
+         [ladders (read-n N)]
+         [M (string->number (read-line))]
+         [snakes (read-n M)])
+    (play (append ladders snakes))))
+(for-each (lambda (_)
+            (p "foofoo")
+            (p (process)))
+          (range T))

@@ -1,0 +1,40 @@
+#lang racket
+
+(define p displayln)
+
+(define (roll now cnt move-lst)
+  (if (>= now 100)
+      cnt
+      (roll (play now move-lst) (add1 cnt) move-lst)))
+
+(define (play now move-lst)
+  (let ([new-lst (map (lambda (i) (jump i move-lst))
+                      (range (+ now 1) (+ now 7)))])
+    (car (sort new-lst >))))
+
+(define (jump now move-lst)
+  (define ret now)
+  (for-each (lambda (pair) (when (eqv? now (car pair))
+                             (set! ret (cadr pair))))
+            move-lst)
+  ret)
+
+(define (read-n n)
+  (if (eqv? n 0)
+      '()
+      (cons (map string->number
+                 (string-split (read-line) " "))
+            (read-n (sub1 n)))))
+
+;; main
+(define T (string->number (read-line)))
+(define (process)
+  (let* ([N (string->number (read-line))]
+         [ladders (read-n N)]
+         [M (string->number (read-line))]
+         [snakes (read-n M)])
+    (roll 1 0 (append ladders snakes))))
+(for-each (lambda (_)
+            (p "foofoofoo")
+            (p (process)))
+          (range T))
