@@ -1,0 +1,27 @@
+#lang racket
+
+(define p displayln)
+
+; list[char] -> list[string]
+(define (substrings cs)
+  (map list->string
+       (foldr (lambda (l r) (append r
+                                    (map (lambda (e) (cons l e))
+                                         r)))
+              '(())
+              cs)))
+
+(define n (string->number (read-line)))
+(define substr (foldr (lambda (_ r) (append (substrings (string->list (read-line))) r))
+                      '()
+                      (range n)))
+(define substr* (cdr (sort (remove-duplicates substr) string<?)))
+
+(define k (string->number (read-line)))
+
+(for-each (lambda (_) (let ([q (string->number (read-line))]
+                            [len (length substr*)])
+                        (p (if (> q len)
+                               "INVALID"
+                               (list-ref substr* (sub1 q))))))
+          (range k))

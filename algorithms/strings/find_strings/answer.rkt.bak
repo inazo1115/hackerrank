@@ -1,0 +1,19 @@
+#lang racket
+
+(define p displayln)
+
+; list[char] -> list[list[char]]
+(define (substrings cs)
+  (foldr (lambda (l r) (append (list r)
+                               (map (lambda (e) (cons l e))
+                                    (list r))))
+         '()
+         cs))
+
+
+(define n (string->number (read-line)))
+(define s (read-line))
+
+
+(string->list s)
+(substrings (string->list s))
