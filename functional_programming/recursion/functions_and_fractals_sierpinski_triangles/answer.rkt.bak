@@ -1,0 +1,41 @@
+#lang racket
+
+(struct point (x y) #:inspector #f)
+
+#|
+(define (sierpinski n)
+  (if (zero? n)
+      (get-init)
+      (let ([(pic top left-bottom right-bottom) (sierpinski (sub1 n))])
+        (draw-triangle pic top left-bottom right-bottom))))
+
+(define (get-init)
+  (let ([pic (draw-triangle )]))
+  (values pic top left-bottom right-bottom))
+
+|#
+
+;; /\
+;; @param canvas::vector[char]
+;; @paran x::point top
+;; @param y::point left-bottom
+;; @param z::point right-bottom
+;; @param c::char char
+(define (draw-triangle canvas top left right c)
+  (for* ([i (range (point-x top) (add1 (point-x left)))]
+         [j (range (- (point-y top) i) (add1 (+ (point-y top) i)))])
+    (vector-set! (vector-ref canvas i) j c))
+  canvas)
+
+;; \/
+
+;; main
+;(define n (read))
+;(sierpinski n)
+
+(define *field* (for/vector ([x 3])
+                  (for/vector ([y 5])
+                    0)))
+
+(draw-triangle *field* (point 0 2) (point 2 0) (point 2 5) #\a)
+;(displayln *field*)

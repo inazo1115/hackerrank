@@ -1,0 +1,35 @@
+#lang racket
+
+(struct point (x y) #:inspector #f)
+
+(define (sierpinski! n canvas top height)
+  (if (zero? n)
+      (draw-triangle! canvas top height #\1)
+      (for-each (lambda (e) (sierpinski! (sub1 n) canvas (first e) (second e)))
+                (get-next top height))))
+
+(define (get-next top height)
+  (let*([h (/ height 2)]
+        [x (+ (point-x top) h)])
+    (list (list top h)
+          (list (point x (- (point-y top) h)) h)
+          (list (point x (+ (point-y top) h)) h))))
+
+(define (draw-triangle! canvas top height c)
+  (let ([counter 0])
+    (for* ([i (range (point-x top) (+ (point-x top) height))]
+           [j (range (- (point-y top) (- i (point-x top)))
+                     (add1 (+ (point-y top) (- i (point-x top)))))])
+;      (set! counter ()
+      (vector-set! (vector-ref canvas i) j c))))
+
+(define (pp-canvas canvas)
+  (map (lambda (v) (list->string (vector->list v)))
+       (vector->list canvas)))
+
+;; main
+(define *canvas* (for/vector ([x 32])
+                   (for/vector ([y 63])
+                     #\_)))
+(sierpinski! 5 *canvas* (point 0 31) 32)
+(for-each displayln (pp-canvas *canvas*))

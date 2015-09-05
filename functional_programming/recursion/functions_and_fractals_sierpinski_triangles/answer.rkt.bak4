@@ -1,0 +1,49 @@
+#lang racket
+
+(define p displayln)
+
+(struct point (x y) #:inspector #f)
+
+(define (sierpinski! n canvas top left right)
+  (if (zero? n)
+      (draw-triangle! canvas top left right #\1)
+      (for-each (lambda (e) (sierpinski! (sub1 n) canvas (first e) (second e) (third e)))
+                (ret-points top left right)))
+  )
+
+(define (ret-points top left right)
+  (let ([ax (floor (/ (- (point-x left) (point-x top)) 2))]
+        [ay (floor (/ (- (point-y top) (point-y left)) 2))]
+        [bx (floor (/ (- (point-x right) (point-x top)) 2))]
+        [by (floor (+ (/ (- (point-y right) (point-y top)) 2)
+                      (point-y top)))]
+        [cx (point-x left)]
+        [cy (point-y top)])
+    (list (list top (point ax ay) (point bx by))
+          (list (point (add1 ax) (sub1 ay)) left (point cx (sub1 cy)))
+          (list (point (add1 bx) (add1 by)) (point cx (add1 cy)) right)
+          )))
+
+(define (draw-triangle! canvas top left right c)
+  (for* ([i (range (point-x top) (add1 (point-x left)))]
+         [j (range (- (point-y top) (- i (point-x top)))
+                   (add1 (+ (point-y top) (- i (point-x top)))))])
+    (vector-set! (vector-ref canvas i) j c))
+
+(p "foo")
+(p top)
+(p left)
+(p right)
+(for-each displayln (pp-canvas *canvas*))
+  )
+
+(define (pp-canvas canvas)
+  (map (lambda (v) (list->string (vector->list v)))
+       (vector->list canvas)))
+
+;; main
+(define *canvas* (for/vector ([x 32])
+                   (for/vector ([y 63])
+                     #\_)))
+(sierpinski! 2 *canvas* (point 0 31) (point 31 0) (point 31 62))
+(for-each displayln (pp-canvas *canvas*))
