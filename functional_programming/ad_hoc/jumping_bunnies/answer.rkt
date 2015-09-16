@@ -1,5 +1,22 @@
 #lang racket
 
+(define (solve xs)
+  (if (null? xs)
+      '()
+      (cons (car xs) (solve (my-filter (car xs) (cdr xs))))))
+
+;(2 3) ((2 2) (5 7))
+(define (my-filter x xs)
+  (map (lambda (y) (bar x y))
+       xs))
+
+;(2 3) (2 2) -> (2), (5 7) (2 2) -> (2 2)
+(define (bar x y)
+  (cond [(null? x) y]
+        [(null? y) '()]
+        [(eqv? (car x) (car y)) (bar (cdr x) (cdr y))]
+        [else (bar (cdr x) y)]))
+
 ; number -> list[number]
 (define (prime-fact x)
   (define (helper n primes)
@@ -18,11 +35,9 @@
                                        xs)))))
   (helper (range 2 (add1 x))))
 
+; main
 (void (read-line))
 (define xs (filter positive?
                    (map string->number
                         (string-split (read-line) " "))))
-
-;(solve xs)
-(map prime-fact
-     (range 2 100))
+(apply * (flatten (solve (map prime-fact xs))))
