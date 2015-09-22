@@ -1,5 +1,3 @@
-# my HackerRank workspace
+# hackerrank_workspace
 
-- how to exec js
-  - $ cat input.txt | nodejs answer.js
-
+- $ cat input.txt | racket answer.rkt
