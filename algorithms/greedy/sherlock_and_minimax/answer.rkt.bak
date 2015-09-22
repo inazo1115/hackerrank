@@ -1,0 +1,30 @@
+#lang racket
+
+(define N (read))
+(define (read-list N n)
+  (if (eqv? n N)
+      '()
+      (cons (read) (read-list N (add1 n)))))
+(define A (read-list N 0))
+(define P (read))
+(define Q (read))
+
+;;;
+
+(define (calc-min n)
+  (foldr (lambda (e v) (if (< (abs (- n e)) v)
+                           (abs (- n e))
+                           v))
+         (abs (- n (car A)))
+         (cdr A)))
+
+(define foo (map (lambda (e) (cons e (calc-min e)))
+                 (range P (add1 Q))))
+
+(define bar (sort foo (lambda (e0 e1) (> (car e0) (car e1)))))
+
+(define hoge (foldl (lambda (e v) (if (>= (cdr e) (cdr v)) e v))
+                    (car bar)
+                    (cdr bar)))
+
+(car hoge)
