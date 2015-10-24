@@ -1,0 +1,12 @@
+(defn foo [x xs]
+  (cond (empty? xs) (list '() '())
+        (not (== (first xs) x)) (list '() xs)
+        :else (list (cons (first xs)
+                          (first (foo x (rest xs))))
+                    (first (rest (foo x (rest xs)))))))
+
+(println (foo 1 '(1)))
+(println (foo 1 '(1 1 3 4)))
+
+;(def msg (read-line))
+;(println (group-by msg))
