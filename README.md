@@ -1,3 +1,3 @@
-# hackerrank_workspace
+# hackerrank
 
 - $ cat input.txt | racket answer.rkt
