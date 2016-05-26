@@ -1,3 +1,3 @@
 # hackerrank
 
-- $ cat input.txt | racket answer.rkt
+```$ cat input.txt | clojure ans.clj```
