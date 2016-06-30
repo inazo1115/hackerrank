@@ -21,9 +21,9 @@ def ans(xs, k):
     return ret
 
 if __name__ == '__main__':
-    l = sys.stdin.readline().split(" ")
+    l = sys.stdin.readline().split(' ')
     N = int(l[0])
     K = int(l[1])
-    xs = [int(c) for c in sys.stdin.readline().split(" ")]
+    xs = [int(c) for c in sys.stdin.readline().split(' ')]
     xs.sort()
     print(ans(xs, K))
