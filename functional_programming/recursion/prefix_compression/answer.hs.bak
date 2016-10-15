@@ -1,0 +1,17 @@
+import Text.Printf
+
+solve :: String -> String -> String -> (String, String, String)
+solve x y acc
+    | length x == 0        = (x, y, reverse acc)
+    | length y == 0        = (x, y, reverse acc)
+    | (head x) == (head y) = solve (tail x) (tail y) ((head x) : acc)
+    | otherwise            = (x, y, reverse acc)
+
+
+main :: IO()
+main = do x <- getLine
+          y <- getLine
+          let (x', y', prefix) = solve x y ""
+          printf "%d %s\n" (length prefix) prefix
+          printf "%d %s\n" (length x') x'
+          printf "%d %s\n" (length y') y'
